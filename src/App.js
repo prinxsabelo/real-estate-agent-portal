@@ -1,24 +1,35 @@
-import logo from './logo.svg';
+import {
+  Route,
+  Routes,
+} from 'react-router-dom';
+import ConfirmLogin from './components/Auth/ConfirmLogin';
+import Login from './components/Auth/Login';
+import Home from './container/Home';
 import './App.css';
+import AgencyProfile from './container/AgencyProfile';
+import { useState } from 'react';
+import { LoaderContext } from './shared/context/loader-context';
 
 function App() {
+  const [loader, setLoader] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LoaderContext.Provider value={{ loader, setLoader }}>
+      <div className='h-1'>
+        {loader ?
+          <div className="progress-line h-full"></div> :
+          <></>
+        }
+      </div>
+
+      <Routes>
+        <Route path="login/google/*" element={<ConfirmLogin />} />
+        <Route path="login" element={<Login />} />
+        <Route path="agency-profile" element={<AgencyProfile />} />
+        <Route path="/*" element={<Home />} />
+      </Routes>
+    </LoaderContext.Provider>
+
+
   );
 }
 
